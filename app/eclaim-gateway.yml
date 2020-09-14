@@ -1,0 +1,30 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: eclaim
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - eclaim-gateway
+  http:
+  - match:
+    - uri:
+        exact: /eclaim
+    - uri:
+        prefix: /eclaim/case
+    route:
+    - destination:
+        host: backend
+        port:
+          number: 8080
+  - match:
+    - uri:
+        exact: /dashboard
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: frontend
+        port:
+            number: 8081

@@ -1,0 +1,10 @@
+SETUP
+https://istio.io/latest/docs/setup/getting-started/
+ps. select othertab for deploy
+
+
+START DASHBOARD
+1. cd istio-1.7.1
+2. $ export PATH=$PWD/bin:$PATH
+3. istioctl dashboard kiali --address 0.0.0.0
+4. http://10.138.38.63:20001/kiali

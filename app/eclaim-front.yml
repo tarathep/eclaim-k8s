@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  labels:
+    app: frontend
+    service: frontend
+spec:
+  ports:
+  - port: 8081
+    name: http
+  selector:
+    app: frontend
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: eclaim-frontend
+  labels:
+    account: frontend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-v1
+  labels:
+    app: frontend
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: frontend
+        version: v1
+    spec:
+      serviceAccountName: eclaim-frontend
+      containers:
+      - name: frontend
+        image: lib.matador.ais.co.th/bsstrans/bpam/apps/eclaim-frontend:1.0.0
+        imagePullPolicy: IfNotPresent
+        env:
+            - name: "VUE_APP_BACKEND"
+              value: /eclaim
+        ports:
+            - containerPort: 8081
+              protocol: TCP
